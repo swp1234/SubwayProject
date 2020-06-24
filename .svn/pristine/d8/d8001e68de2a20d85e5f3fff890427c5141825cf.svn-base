@@ -1,0 +1,203 @@
+package src;
+
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Iterator;
+import java.util.Vector;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+public class MainServer implements Runnable {
+
+	public static final int ServerPort = 50000;
+	public static final String ServerIP = "127.0.0.1";
+	static DBManager dbManager = new DBManager();
+	static SubwayAPIManager subwayAPIManager = new SubwayAPIManager();
+	Vector<Subway> subwayTrains = new Vector<Subway>();
+
+	@Override
+	public void run() {
+
+		try {
+			System.out.println("S: Connecting...");
+			ServerSocket serverSocket = new ServerSocket(ServerPort);
+
+			while (true) {
+				Socket client = serverSocket.accept();
+				InetAddress clientInet = client.getInetAddress();
+				int clientPort = client.getPort();
+				String clientIp = clientInet.getHostAddress();
+				System.out.println("NEW CLIENT : " + clientIp);
+				new DataExchangeThread(client).start();
+			}
+		} catch (Exception e) {
+			System.out.println("S: Error");
+			e.printStackTrace();
+		} finally {
+
+		}
+
+	}
+
+	public static void main(String[] args) {
+		Thread connectThread = new Thread(new MainServer());
+		connectThread.start();
+	}
+
+	class DataExchangeThread extends Thread {
+
+		Socket clientSocket;
+
+		DataExchangeThread(Socket socket) {
+			this.clientSocket = socket;
+		}
+
+		public void run() {
+			try {
+				ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+				ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+				String receivedJSONObj = (String) ois.readObject();
+				JSONParser jsonParser = new JSONParser();
+				JSONObject obj = (JSONObject) jsonParser.parse(receivedJSONObj);
+				String result = HandleUserRequest(obj);
+				out.writeObject(result);
+				out.flush();
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public String HandleUserRequest(JSONObject obj) {
+			String function = (String) obj.get("FUNCTION");
+			String requestResult = "";
+			switch (function) {
+			case "CHECKIDDUPLICATES":
+				requestResult = CheckIDDuplicates(obj) ? "Duplicate" : "NotDuplicate";
+				break;
+			case "SIGNUP":
+				requestResult = CreateNewAccount(obj) ? "ACCOUNT CREATED" : "ACCOUNT NOT CREATED";
+				break;
+			case "SIGNIN":
+				Vector<String> favorites = SignIn(obj);
+				if (favorites.size() == 0)
+					requestResult = "LOGIN FAIL";
+				else {
+					JSONObject favorite = new JSONObject();
+					favorite.put("FAVORITE1", favorites.get(0));
+					favorite.put("FAVORITE2", favorites.get(1));
+					requestResult = favorite.toString();
+				}
+				break;
+			case "GETSUBWAYTRAINS":
+				requestResult = GetSubwayLocation(obj);
+				break;
+			case "REGISTERSEATS":
+				RegisterSeats(obj);
+				break;
+			case "QUERYREGISTEREDSEATS":
+				break;
+			}
+			return requestResult;
+		}
+
+		public boolean CheckIDDuplicates(JSONObject obj) {
+			return dbManager.checkIDDuplicates((String) obj.get("ID"));
+		}
+
+		public boolean CreateNewAccount(JSONObject obj) {
+			JSONObject jsonObject = (JSONObject) obj.get("ACCOUNT");
+			String id = (String) jsonObject.get("ID");
+			String pw = (String) jsonObject.get("PW");
+			String favorite1 = (String) jsonObject.get("FAVORITE1");
+			String favorite2 = (String) jsonObject.get("FAVORITE2");
+			Account newAccount = new Account(id, pw, favorite1, favorite2);
+			return dbManager.createNewAccount(newAccount);
+		}
+
+		public Vector<String> SignIn(JSONObject obj) {
+			JSONObject jsonObject = (JSONObject) obj.get("ACCOUNT");
+			String id = (String) jsonObject.get("ID");
+			String pw = (String) jsonObject.get("PW");
+			Account account = new Account(id, pw);
+			return dbManager.logIn(account);
+		}
+
+		public String GetSubwayLocation(JSONObject obj) {
+			int stationID = ((Long) obj.get("STATIONID")).intValue();
+			int route = ((Long) obj.get("ROUTE")).intValue();
+			return subwayAPIManager.getSubwayLocation(stationID, route);
+		}
+
+		public void RegisterSeats(JSONObject obj) {
+			String id = (String) obj.get("ID");
+			boolean isPointAddable = RefreshSeats(id);
+			int trainID = ((Long) obj.get("TRAINNO")).intValue();
+			int roomID = ((Long) obj.get("ROOMNO")).intValue();
+			int seatLoc = ((Long) obj.get("SEATLOCATION")).intValue();
+			int seatNo = ((Long) obj.get("SEATNO")).intValue();
+			int destination = ((Long) obj.get("STATIONNO")).intValue();
+			boolean isTrainExists = false;
+
+			for (int i = 0; i < subwayTrains.size(); i++) {
+				if (subwayTrains.get(i).getSubwayTrainNo() == trainID) {
+					isTrainExists = true;
+					Seat seat = new Seat(seatLoc, seatNo, destination, roomID, id);
+					subwayTrains.get(i).seats.add(seat);
+					break;
+				}
+			}
+
+			if (!isTrainExists) {
+				Subway subway = new Subway(trainID);
+				Seat seat = new Seat(seatLoc, seatNo, destination, roomID, id);
+				subway.seats.add(seat);
+				subwayTrains.add(subway);
+			}
+			
+			if(isPointAddable) {
+				dbManager.addPoints(id);
+			}
+		}
+
+		public boolean RefreshSeats(String id) {
+			boolean isIdRegistered = true;
+			JSONArray jsonArray = subwayAPIManager.getSubwayTrainsLocation();
+			int updnLine = 0;
+			for (int i = 0; i < subwayTrains.size(); i++) {
+				int trainNo = subwayTrains.get(i).getSubwayTrainNo();
+				int currentLoc = 0;
+				for (int j = 0; j < jsonArray.size(); j++) {
+					JSONObject obj = (JSONObject) jsonArray.get(j);
+					if (Integer.parseInt(obj.get("trainNo").toString()) == trainNo) {
+						updnLine = (Integer.parseInt(obj.get("updnLine").toString()) == 0) ? -1 : 1;
+						if (Integer.parseInt(obj.get("trainSttus").toString()) == 0) {
+							currentLoc = Integer.parseInt(obj.get("statnId").toString()) - 1;
+						} else {
+							currentLoc = Integer.parseInt(obj.get("statnId").toString());
+						}
+						break;
+					}
+				}
+				Iterator<Seat> it = subwayTrains.get(i).seats.iterator();
+				while(it.hasNext()) {
+					Seat seat = it.next();
+					if (seat.destination * updnLine <= currentLoc * updnLine) {
+						it.remove();
+					}
+					else if(seat.registeredId.equals(id)) {
+						it.remove();
+						isIdRegistered = false;
+					}
+				}
+			}
+			return isIdRegistered;
+		}
+	}
+}

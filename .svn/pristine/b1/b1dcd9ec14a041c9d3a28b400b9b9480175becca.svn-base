@@ -1,0 +1,45 @@
+package src;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Server implements Runnable {
+
+    public static final int ServerPort = 5000;
+    public static final String ServerIP = "127.0.0.1";
+    static DBManager dbManager = new DBManager();
+   // static SubwayAPIManager subwayAPIManager = new SubwayAPIManager();
+    @Override
+    public void run() {
+
+        try {
+            System.out.println("S: Connecting...");
+            ServerSocket serverSocket = new ServerSocket(ServerPort);
+
+            while (true) {
+                Socket client = serverSocket.accept();
+                InetAddress clientInet = client.getInetAddress();
+                int clientPort = client.getPort();
+                String clientIp = clientInet.getHostAddress();
+                System.out.println("NEW CLIENT CONNTECTED FROM IP : " + clientIp + "/" + clientPort + " ####### ");
+                System.out.println("S: Receiving...");
+            }
+        } catch (Exception e) {
+            System.out.println("S: Error");
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Thread loginThread = new Thread(new Server());
+        loginThread.start();
+
+    }
+}
+

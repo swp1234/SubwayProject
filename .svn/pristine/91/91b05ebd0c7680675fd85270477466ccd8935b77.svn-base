@@ -1,0 +1,63 @@
+package src;
+
+import java.io.BufferedInputStream;
+import java.net.URL; 
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.JSONArray;
+
+
+
+public class SubwayAPIManager {
+	
+	public SubwayAPIManager() throws Exception{
+        
+        JSONParser jsonparser = new JSONParser();
+        JSONObject jsonobject = (JSONObject)jsonparser.parse(getSubwayLocation());
+        JSONObject json =  (JSONObject) jsonobject.get("realtimePositionList");
+        JSONArray array = (JSONArray)json.get("realtimePositionList");
+        for(int i = 0 ; i < array.size(); i++){
+            
+            JSONObject entity = (JSONObject)array.get(i);
+            String subwayNm = (String) entity.get("subwayNm");
+            System.out.println(subwayNm);}
+	}
+	
+	private String getSubwayLocation() throws Exception {
+		BufferedInputStream reader = null;
+		try {
+            URL url = new URL(
+                    "http://swopenAPI.seoul.go.kr/api/subway/");
+            String KEY = "556542515268626b39365865426561";
+            String TYPE = "json";
+            String SERVICE = "realtimePosition";
+            int START_INDEX = 0;
+            int END_INDEX = 15;
+            String subwayNm = "2È£¼±";
+            
+            reader = new BufferedInputStream(url.openStream());
+            StringBuffer buffer = new StringBuffer();
+            int i;
+            byte[] b = new byte[4096];
+            while( (i = reader.read(b)) != -1){
+              buffer.append(new String(b, 0, i));
+            }
+            return buffer.toString();
+        } finally {
+            if (reader != null)
+                reader.close();
+        }
+    }
+
+	public static void main(String[] args) {
+	 // TODO Auto-generated method stub
+			try {
+			       new SubwayAPIManager();
+			        } catch (Exception e) {
+			            // TODO Auto-generated catch block
+			            e.printStackTrace();
+                    }
+	}
+}
+			 

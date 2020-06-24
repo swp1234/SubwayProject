@@ -1,0 +1,11 @@
+package src;
+
+import java.util.Vector;
+
+public class Room {
+	int roomNumber;
+	Vector<Seat> seats = new Vector<Seat>();
+	public int GetRoomNumber() {
+		return roomNumber;
+	}
+}

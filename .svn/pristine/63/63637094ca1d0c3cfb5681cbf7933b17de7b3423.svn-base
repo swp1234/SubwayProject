@@ -1,0 +1,65 @@
+package src;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+import javax.net.ssl.HttpsURLConnection;
+
+
+
+public class SubwayAPIManager {
+    final String KEY = "556542515268626b39365865426561";
+    final String APIURL = "http://swopenAPI.seoul.go.kr/api/subway/";
+    final String SERVICENAME = "realtimePosition";
+	final int START_INDEX = 0;
+    final int END_INDEX = 100;
+    
+	public SubwayAPIManager() {
+        /*
+        JSONParser jsonparser = new JSONParser();
+        JSONObject jsonobject = (JSONObject)jsonparser.parse(getSubwayLocation());
+        JSONObject json =  (JSONObject) jsonobject.get("realtimePositionList");
+        JSONArray array = (JSONArray)json.get("realtimePositionList");
+        for(int i = 0 ; i < array.size(); i++){
+            
+            JSONObject entity = (JSONObject)array.get(i);
+            String subwayNm = (String) entity.get("subwayNm");
+            System.out.println(subwayNm);}
+        */
+	}
+	
+	private void getSubwayLocation(String type, String subwayName){
+		BufferedInputStream reader = null;
+        String dataLine="";
+        StringBuilder result = new StringBuilder();
+		try {
+			String fullURL = APIURL+KEY+"/"+type+"/"+SERVICENAME+"/"+START_INDEX+"/"+END_INDEX+"/";
+			String utfSubwayName = URLEncoder.encode(subwayName,"utf-8");
+			fullURL+=utfSubwayName;
+            URL url = new URL(fullURL);
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestMethod("GET");
+            int responseCode = conn.getResponseCode();
+            if(responseCode == HttpsURLConnection.HTTP_OK ){
+                BufferedReader br = new BufferedReader(new InputStreamReader( conn.getInputStream()));
+                while( (dataLine = br.readLine()) != null){
+                    result.append(dataLine);
+                }
+                br.close();
+            }
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(result.toString());
+    }
+
+	public static void main(String[] args) {
+			       SubwayAPIManager a =  new SubwayAPIManager();
+			       a.getSubwayLocation("json", "2호선");
+	}
+}
+			 

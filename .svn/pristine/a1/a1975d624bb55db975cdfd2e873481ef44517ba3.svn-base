@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <Button
+            android:id="@+id/backButton4"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/backmark1"
+            app:srcCompat="@drawable/backmark1" />
+
+        <TextView
+            android:id="@+id/trainDataTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7호선 3827열차 4번칸"
+            android:textSize="30dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_centerInParent="true"/>
+        />
+
+
+    </RelativeLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="155dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/subwayleft"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+
+            <Button
+                android:id="@+id/oldButton1"
+                android:layout_width="60dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/oldpersontop"/>
+
+            <Button
+                android:id="@+id/oldButton2"
+                android:layout_width="60dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="110dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/oldpersonbottom"/>
+
+
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="127dp"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/seatTopTop1"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatTopTop2"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatTopTop3"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatTopTop4"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatTopTop5"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatTopTop6"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatTopTop7"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="127dp"
+                android:layout_marginTop="110dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/seatTopBot1"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatTopBot2"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatTopBot3"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatTopBot4"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatTopBot5"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatTopBot6"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatTopBot7"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+
+        <ImageView
+            android:id="@+id/arrowImageView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/exitTextView1st"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/downarrow" />
+
+        <TextView
+            android:id="@+id/exitTextView1st"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:text="4-1"
+            android:textSize="22dp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/arrowImageView11"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/exitTextView12st"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/downarrow" />
+
+        <TextView
+            android:id="@+id/exitTextView12st"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="340dp"
+            android:layout_marginLeft="340dp"
+            android:text="4-2"
+            android:textSize="22dp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+        <RelativeLayout
+            android:layout_marginTop="5dp"
+            android:id="@+id/middleCarImageView"
+            android:layout_width="215dp"
+            android:layout_height="155dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/subwaymiddle" >
+
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="38dp"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/seatMidTop1"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatMidTop2"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatMidTop3"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatMidTop4"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatMidTop5"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatMidTop6"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatMidTop7"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="38dp"
+                android:layout_marginTop="110dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/seatMidBot1"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatMidBot2"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatMidBot3"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatMidBot4"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatMidBot5"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatMidBot6"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatMidBot7"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/arrowImageView2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/exitTextView2st"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/downarrow" />
+
+        <TextView
+            android:id="@+id/exitTextView2st"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="110dp"
+            android:layout_marginLeft="110dp"
+            android:text="4-2"
+            android:textSize="22dp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/arrowImageView21"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/exitTextView22st"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/downarrow" />
+
+        <TextView
+            android:id="@+id/exitTextView22st"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="300dp"
+            android:layout_marginLeft="300dp"
+            android:text="4-3"
+            android:textSize="22dp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+        <RelativeLayout
+            android:layout_marginTop="5dp"
+            android:id="@+id/rightCarImageView"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/subwayright" >
+
+            <LinearLayout
+                android:layout_width="133dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="11dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/seatBotTop1"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatBotTop2"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatBotTop3"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatBotTop4"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatBotTop5"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatBotTop6"
+                    android:layout_width="20dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+                <Button
+                    android:id="@+id/seatBotTop7"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/person1" />
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/oldButton3"
+                android:layout_width="60dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginLeft="230dp"
+                android:background="@drawable/oldpersontop"/>
+
+            <Button
+                android:id="@+id/oldButton4"
+                android:layout_width="60dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="107dp"
+                android:layout_marginLeft="230dp"
+                android:background="@drawable/oldpersonbottom"/>
+
+            <LinearLayout
+                android:layout_width="133dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="107dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/seatBotBot1"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatBotBot2"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatBotBot3"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatBotBot4"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatBotBot5"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatBotBot6"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+                <Button
+                    android:id="@+id/seatBotBot7"
+                    android:layout_width="19dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/personbottom1" />
+
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/arrowImageView3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/exitTextView3st"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/downarrow" />
+
+        <TextView
+            android:id="@+id/exitTextView3st"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginLeft="70dp"
+            android:text="4-3"
+            android:textSize="22dp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/arrowImageView31"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/exitTextView32st"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/downarrow" />
+
+        <TextView
+            android:id="@+id/exitTextView32st"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="240dp"
+            android:layout_marginLeft="240dp"
+            android:text="4-4"
+            android:textSize="22dp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
+
+</LinearLayout>

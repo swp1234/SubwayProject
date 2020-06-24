@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ClientActivity">>
+`
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        xmlns:tools="http://schemas.android.com/tools"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        tools:context="${relativePackage}.${activityClass}">
+
+
+        <Button
+            android:id="@+id/btn_connectserver"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:layout_centerHorizontal="true"
+
+            android:layout_marginTop="20dp"
+
+            android:onClick="mOnClick"
+
+            android:text="CONNECT SERVER"
+
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/label_message_from_server"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/btn_connectserver"
+
+            android:layout_marginTop="50dp"
+
+            android:gravity="center"
+
+            android:text="The Message from the server"
+
+            android:textColor="#000000"
+
+            android:textSize="20sp"
+
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/text_massage_from_server"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/label_message_from_server"
+
+            android:layout_marginTop="20dp"
+
+            android:gravity="center"
+
+            android:text="text" />
+
+
+        <TextView
+            android:id="@+id/label_message_to_server"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/text_massage_from_server"
+
+            android:layout_marginTop="50dp"
+
+            android:gravity="center"
+
+            android:text="The Message to the server"
+
+            android:textColor="#000000"
+
+            android:textSize="20sp"
+
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/edit_message_to_server"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/label_message_to_server"
+
+            android:layout_centerHorizontal="true"
+
+            android:layout_marginTop="20sp"
+
+            android:gravity="center"
+
+            android:hint="Enter the message" />
+
+
+        <Button
+            android:id="@+id/btn_send_client"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/edit_message_to_server"
+
+            android:layout_centerHorizontal="true"
+
+            android:layout_marginTop="50dp"
+
+            android:onClick="mOnClick"
+
+            android:text="SEND" />
+
+
+        <EditText
+            android:id="@+id/edit_addressofserver"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentBottom="true"
+
+            android:layout_marginBottom="20dp"
+
+            android:gravity="center"
+
+            android:hint="Enter the address of server" />
+
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

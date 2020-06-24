@@ -1,0 +1,43 @@
+package src;
+
+public class Seat {
+	int roomNo;
+	int seatNo;
+	String destination;
+	boolean isTaken;
+	
+	public Seat(int roomNo, int seatNo, String destination, boolean isTaken) {
+		super();
+		this.roomNo = roomNo;
+		this.seatNo = seatNo;
+		this.destination = destination;
+		this.isTaken = isTaken;
+	}
+	
+	public int getRoomNo() {
+		return roomNo;
+	}
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
+	}
+	public int getSeatNo() {
+		return seatNo;
+	}
+	public void setSeatNo(int seatNo) {
+		this.seatNo = seatNo;
+	}
+	public String getDestination() {
+		return destination;
+	}
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+	public boolean isTaken() {
+		return isTaken;
+	}
+	public void setTaken(boolean isTaken) {
+		this.isTaken = isTaken;
+	}
+	
+	
+}

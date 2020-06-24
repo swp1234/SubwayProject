@@ -1,0 +1,156 @@
+package com.example.project1;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+
+public class SelectTrainActivity extends AppCompatActivity {
+
+    int stationNum;
+    int stationArrayNum;
+    int routeNum;
+    SubwayTrainAdapter adapter;
+    String[][] station={{"장암","709"},{"도봉산","710"},{"수락산","711"},{"마들","712"},{"노원","713"},{"중계(한국성서대)","714"},{"하계(을지원 을지병원)","715"},{"공릉(서울과학기술대)","716"},
+            {"태릉입구","717"}, {"먹골","718"},{"중화","719"},{"상봉(시외버스터미널)","720"},{"면목(서일대입구)","721"},{"사가정(녹색병원)","722"},{"용마산","723"},{"중곡","724"},{"군자(능동)","725"},
+            {"어린이대공원(세종대)","726"},{"건대입구","727"},{"뚝섬유원지","728"},{"청댐(한국금거래소)","729"},{"강남구청","730"},{"학동","731"},{"논현","732"},{"반포","733"},{"고속터미널","734"},{"내방","735"},
+            {"아수","736"},{"남성","737"},{"숭실대입구(살피재)","738"},{"상도","739"},{"장승배기","740"},{"신대방삼거리","741"},{"보라매","742"},{"신풍","743"},{"대림(구로구청)","744"},{"남구로","745"},
+            {"가산디지털단지(마리오아울렛)","746"},{"철산","746"},{"광명사거리","748"},{"천왕","749"},{"온수(성공회대입구)","750"},{"까치울","751"},{"부천종합운동장","752"},{"춘의","753"},{"신중동","754"},
+            {"부천시청","755"},{"상동","756"},{"삼산체육관","757"},{"굴포천","758"},{"부평구청","759"}};
+    int[][] trainSituation= {{0,0},{2,0},{0,0},{2,0},{0,0},{3,1823},{0,0},{2,0}};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_select_train);
+
+
+        Intent passedIntent = getIntent();
+        processIntent(passedIntent);
+        stationNum = passedIntent.getExtras().getInt("selectedStation");
+        routeNum = passedIntent.getExtras().getInt("route");
+
+        //역 배열에서 몇번째인지 알아내기
+        for(int i=0;i<station.length;i++) {
+            if(station[i][1].equals(Integer.toString(stationNum))) {
+                stationArrayNum=i;
+                break;
+            }
+        }
+        //Log.d("stationArrayNum",Integer.toString(stationArrayNum));
+        Button button = (Button)findViewById(R.id.backButton1);
+        Button button2 = (Button)findViewById(R.id.xButton1);
+        Button button3 = (Button)findViewById(R.id.resetButton);
+        ListView listView = (ListView)findViewById(R.id.trainListView);
+
+        adapter = new SubwayTrainAdapter();
+
+
+
+        if(routeNum==0) {
+            for (int i = 0; i < 4; i++) {
+                if (i+stationArrayNum-3 > station.length) {
+                } else {
+                    adapter.addItem(new SubwayTrainItem("", trainSituation[i * 2][0], trainSituation[i * 2][1]));
+                    adapter.addItem(new SubwayTrainItem(station[i+stationArrayNum-3][0], trainSituation[i * 2 + 1][0], trainSituation[i * 2 + 1][1]));
+                }
+            }//열차가 있는가? 있다면 몇번이고 어디 위치에 있는가?
+            //adapter.addItem(new SubwayTrainItem()); String subwayName, int trainSituation, int trainNum
+            //int trainSituation[i][0] = 0->위치는 역 중간, 없다 / 1->위치는 역 중간, 있다 / 2->위치는 역, 없다 / 3->위치는 역, 있다.
+        }else{
+            //Log.d("routeNum",Integer.toString(routeNum));
+            for (int i = 0; i < 4; i++) {
+                if (stationArrayNum-3+i < 0) {
+                } else {
+                    adapter.addItem(new SubwayTrainItem("", trainSituation[i * 2][0], trainSituation[i * 2][1]));
+                    adapter.addItem(new SubwayTrainItem(station[stationArrayNum+3-i][0], trainSituation[i * 2 + 1][0], trainSituation[i * 2 + 1][1]));
+                }
+            }
+        }
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SubwayTrainItem item = (SubwayTrainItem) adapter.getItem(position);
+                //Toast.makeText(getApplicationContext(),"선택 : "+item.getName(), Toast.LENGTH_LONG).show();
+                Intent intent1 = new Intent(getApplicationContext(), OverviewActivity.class);
+                intent1.putExtra("selectedTrain",item.getTrainNum());
+                intent1.putExtra("route",routeNum);
+                startActivityForResult(intent1, 120);
+            }
+        });
+
+        //뒤로가기 버튼들
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        //리셋 버튼
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //리셋기능
+            }
+        });
+    }
+
+    private void processIntent(Intent intent){
+        if(intent !=null){
+            stationNum = intent.getExtras().getInt("selectedStation");
+        }
+    }
+
+    class SubwayTrainAdapter extends BaseAdapter {
+        ArrayList<SubwayTrainItem> items = new ArrayList<SubwayTrainItem>();
+
+        @Override
+        public int getCount() {
+            return items.size();
+        }
+
+        public void addItem(SubwayTrainItem item){
+            items.add(item);
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return items.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            SubwayTrainItemView view = new SubwayTrainItemView(getApplicationContext());
+
+            SubwayTrainItem item = items.get(position);
+            view.setSubwayName(item.getSubwayName());
+            view.setImage(item.getTrainSituation());
+            view.setTrainNum(item.getTrainNum());
+
+            return view;
+        }
+    }
+}

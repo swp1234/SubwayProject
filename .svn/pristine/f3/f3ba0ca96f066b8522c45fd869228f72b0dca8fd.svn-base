@@ -1,0 +1,121 @@
+package src;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class MainServer implements Runnable {
+
+	public static final int ServerPort = 50000;
+	public static final String ServerIP = "127.0.0.1";
+	static DBManager dbManager = new DBManager();
+	static SubwayAPIManager subwayAPIManager = new SubwayAPIManager();
+
+	@Override
+	public void run() {
+
+		try {
+			System.out.println("S: Connecting...");
+			ServerSocket serverSocket = new ServerSocket(ServerPort);
+
+			while (true) {
+				Socket client = serverSocket.accept();
+				InetAddress clientInet = client.getInetAddress();
+				int clientPort = client.getPort();
+				String clientIp = clientInet.getHostAddress();
+				System.out.println("NEW CLIENT : "+clientIp);
+				new DataExchangeThread(client).start();
+			}
+		} catch (Exception e) {
+			System.out.println("S: Error");
+			e.printStackTrace();
+		} finally {
+
+		}
+
+	}
+
+	public static void main(String[] args) {
+		Thread connectThread = new Thread(new MainServer());
+		connectThread.start();
+	}
+
+	class DataExchangeThread extends Thread {
+
+		Socket clientSocket;
+
+		DataExchangeThread(Socket socket) {
+			this.clientSocket = socket;
+		}
+
+		public void run() {
+			try {
+				ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+				ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+				String receivedJSONObj = (String) ois.readObject();
+				JSONParser jsonParser = new JSONParser();
+				JSONObject obj = (JSONObject) jsonParser.parse(receivedJSONObj);
+				String result = HandleUserRequest(obj);
+				out.writeObject(result);
+				out.flush();
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public String HandleUserRequest(JSONObject obj) {
+			String function = (String) obj.get("FUNCTION");
+			String requestResult = "";
+			switch (function) {
+			case "CHECKIDDUPLICATES":
+				requestResult = CheckIDDuplicates(obj) ? "Duplicate" : "NotDuplicate";
+				break;
+			case "SIGNUP":
+				requestResult = CreateNewAccount(obj) ? "ACCOUNT CREATED" : "ACCOUNT NOT CREATED";
+				break;
+			case "SIGNIN":
+				requestResult = SignIn(obj) ? "LOGIN SUCCESS" : "LOGIN FAIL";
+				break;
+			case "GETSUBWAYTRAINS":
+				requestResult = GetSubwayLocation(obj);
+				break;
+			}
+			return requestResult;
+		}
+
+		public boolean CheckIDDuplicates(JSONObject obj) {
+			return dbManager.checkIDDuplicates((String) obj.get("ID"));
+		}
+
+		public boolean CreateNewAccount(JSONObject obj) {
+			JSONObject jsonObject = (JSONObject) obj.get("ACCOUNT");
+			String id = (String) jsonObject.get("ID");
+			String pw = (String) jsonObject.get("PW");
+			Account newAccount = new Account(id, pw);
+			return dbManager.createNewAccount(newAccount);
+		}
+
+		public boolean SignIn(JSONObject obj) {
+			JSONObject jsonObject = (JSONObject) obj.get("ACCOUNT");
+			String id = (String) jsonObject.get("ID");
+			String pw = (String) jsonObject.get("PW");
+			Account account = new Account(id, pw);
+			return dbManager.logIn(account);
+		}
+		
+		public String GetSubwayLocation(JSONObject obj) {
+			int stationID = ((Long) obj.get("STATIONID")).intValue();
+			int route = ((Long)obj.get("ROUTE")).intValue();
+			return subwayAPIManager.getSubwayLocation(stationID,route);
+		}
+	}
+}

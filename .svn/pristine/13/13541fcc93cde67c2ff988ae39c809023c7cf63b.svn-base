@@ -1,0 +1,175 @@
+package com.example.project1;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONObject;
+
+public class JoinInActivity extends AppCompatActivity {
+
+
+    String joinID;
+    String joinPW1;
+    String joinPW2;
+    String searchtext="";
+    String homeStationNum="";
+    String workStationNum="";
+
+
+    Boolean isIDDuplicate = true;
+    Boolean isPWSame = false;
+
+    TextView joiningID;
+    TextView joiningPW1;
+    TextView joiningPW2;
+    TextView homeText;
+    TextView workText;
+
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_join_in);
+
+
+        Button back_button2 = (Button)findViewById(R.id.backButton2);
+        Button x_button2 = (Button)findViewById(R.id.xButton2);
+        Button checkPW = (Button)findViewById(R.id.identical_button);
+        Button checkID = (Button)findViewById(R.id.duplicate_button);
+        Button joininButton = (Button)findViewById(R.id.joinin_button_confirm);
+        Button homeButton = (Button)findViewById(R.id.home_button);
+        Button workButton = (Button)findViewById(R.id.work_button);
+
+        joiningID =(TextView) findViewById(R.id.idText);
+        joiningPW1 =(TextView) findViewById(R.id.password1Text);
+        joiningPW2 =(TextView) findViewById(R.id.password2Text);
+        homeText=(TextView)findViewById(R.id.homeText);
+        workText=(TextView)findViewById(R.id.workText);
+
+
+        //뒤로가기 버튼
+        back_button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        x_button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        //아이디 중복방지 버튼. 서버확인미구현
+        checkID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                joinID = joiningID.getText().toString();
+                //여기에 서버 확인
+                JSONObject jsonObj  = JsonWrapper.wrapSignInID(joinID);
+                ServerConnectManager scMgr = new ServerConnectManager();
+                scMgr.requestQuery(jsonObj.toString());
+                while(scMgr.getQueryResult().equals(""));
+                boolean isDuplicate = scMgr.getQueryResult().equals("Duplicate");
+                String resultText = isDuplicate? "아이디 중복입니다":"아이디 사용가능합니다";
+                isIDDuplicate = isDuplicate;
+                Toast.makeText(getApplicationContext(), resultText,Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        //비번 일치 확인 버튼
+        checkPW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                joinPW1 = joiningPW1.getText().toString();
+                joinPW2 = joiningPW2.getText().toString();
+                if(joinPW1.equals(joinPW2)){
+                    isPWSame =true;
+                    Toast.makeText(getApplicationContext(),"비밀번호 일치. ",Toast.LENGTH_LONG).show();
+                } else{
+                    Toast.makeText(getApplicationContext(),"비밀번호 불일치. ",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+
+        //회원가입 버튼. 만일을 위해 아이디 중복확인(서버연결 미구현) 및 비번 일치확인 과정을 다시 걸치고 가입을 한다.
+        joininButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                joinPW1 = joiningPW1.getText().toString();
+                joinPW2 = joiningPW2.getText().toString();
+                joinID = joiningID.getText().toString();
+
+                if(!isIDDuplicate && isPWSame &&joinPW1.equals(joinPW2)){//ID 중복확인도 나중에 포함
+                    JSONObject jsonObj = JsonWrapper.wrapSignUpAccount(joinID,joinPW1,homeStationNum,workStationNum);
+                    ServerConnectManager scMgr = new ServerConnectManager();
+                    scMgr.requestQuery(jsonObj.toString());
+                    while(scMgr.getQueryResult().equals(""));
+                    String signUpResult = scMgr.getQueryResult();
+                    if(signUpResult.equals("ACCOUNT CREATED")) {
+                        Toast.makeText(getApplicationContext(), "회원가입 완료! ", Toast.LENGTH_LONG).show();
+                        finish();
+                    }else{
+                        //회원가입 오류 메시지
+                    }
+                }
+            }
+        });
+
+        //홈 즐겨찾기 검색 버튼 누를 경우
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchtext = homeText.getText().toString();
+                Intent intent = new Intent(getApplicationContext(),FavoriteSearchActivity.class);
+
+                intent.putExtra("searchWord",searchtext);
+                intent.putExtra("favorite","home");
+                startActivityForResult(intent, 105);
+            }
+        });
+        workButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchtext = workText.getText().toString();
+                Intent intent = new Intent(getApplicationContext(),FavoriteSearchActivity.class);
+
+                intent.putExtra("searchWord",searchtext);
+                intent.putExtra("favorite","work");
+                startActivityForResult(intent, 105);
+            }
+        });
+
+    }
+
+    //즐겨찾기 검색 후 지정하고 돌아왔을 경우.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==105){//login성공적으로 되서 다시 돌아왔을경우 isloggedin=true로 바꾸어 진행이 가능하게 한다.
+            if(data.getStringExtra("favorite").equals("home")){
+               homeStationNum=data.getStringExtra("stationNum");
+                homeText.setText(data.getStringExtra("stationName"));
+            }else if(data.getStringExtra("favorite").equals("work")){
+                workStationNum=data.getStringExtra("stationNum");
+                workText.setText(data.getStringExtra("stationName"));
+
+            }
+
+        }
+
+    }
+}

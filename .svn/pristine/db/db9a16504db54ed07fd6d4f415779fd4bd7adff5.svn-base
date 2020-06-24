@@ -1,0 +1,44 @@
+package src;
+
+public class Subway {
+	int subwayTrainNo;
+	String currentStationName;
+	String nextStationName;
+	String previousStationName;
+	
+	public Subway(int subwayTrainNo, String currentStationName, String nextStationName, String previousStationName) {
+		super();
+		this.subwayTrainNo = subwayTrainNo;
+		this.currentStationName = currentStationName;
+		this.nextStationName = nextStationName;
+		this.previousStationName = previousStationName;
+	}
+	
+	
+	public int getSubwayTrainNo() {
+		return subwayTrainNo;
+	}
+	public void setSubwayTrainNo(int subwayTrainNo) {
+		this.subwayTrainNo = subwayTrainNo;
+	}
+	public String getCurrentStationName() {
+		return currentStationName;
+	}
+	public void setCurrentStationName(String currentStationName) {
+		this.currentStationName = currentStationName;
+	}
+	public String getNextStationName() {
+		return nextStationName;
+	}
+	public void setNextStationName(String nextStationName) {
+		this.nextStationName = nextStationName;
+	}
+	public String getPreviousStationName() {
+		return previousStationName;
+	}
+	public void setPreviousStationName(String previousStationName) {
+		this.previousStationName = previousStationName;
+	}
+
+	
+}

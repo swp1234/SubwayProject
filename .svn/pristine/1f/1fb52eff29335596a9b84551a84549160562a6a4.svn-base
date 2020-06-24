@@ -1,0 +1,21 @@
+package src;
+
+public class Subway {
+	int subwayTrainNo;
+	Room[] rooms;
+	
+	public Subway(int subwayTrainNo) {
+		super();
+		this.subwayTrainNo = subwayTrainNo;
+		rooms = new Room[5];
+	}
+	
+	
+	public int getSubwayTrainNo() {
+		return subwayTrainNo;
+	}
+	public void setSubwayTrainNo(int subwayTrainNo) {
+		this.subwayTrainNo = subwayTrainNo;
+	}
+	
+}

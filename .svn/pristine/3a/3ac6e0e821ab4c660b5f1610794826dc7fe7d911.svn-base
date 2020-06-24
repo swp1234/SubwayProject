@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <Button
+            android:id="@+id/backButton1"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/backmark1" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 지정 완료"
+            android:textSize="30dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            android:id="@+id/xButton1"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_margin="10dp"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/xmark" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/confirmText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="7호선 1938열차 2번칸 14번" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="자리에서 지정이 완료되었습니다. "/>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/confirmButton"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:text="확인" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="120dp">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="도착역을 다시 선택하시겠습니까?"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/researchStationButton"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="확인"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"/>
+
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="120dp">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="좌석을 재조회 하시겠습니까?"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/researchSeatButton"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="확인"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"/>
+
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

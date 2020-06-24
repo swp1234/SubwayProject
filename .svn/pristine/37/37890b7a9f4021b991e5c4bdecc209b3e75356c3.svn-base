@@ -1,0 +1,300 @@
+package com.example.project1;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
+public class OverviewActivity extends AppCompatActivity {
+
+    boolean payed = false;
+    int carNum;
+    int route;
+    int crowdedSituation[]={0,0,0,0,0,0,0,0,0};
+    int point=100;
+    String loggedId;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_overview);
+
+        Intent passedIntent = getIntent();
+        carNum = passedIntent.getExtras().getInt("selectedTrain");
+        route = passedIntent.getExtras().getInt("route");
+        loggedId = passedIntent.getExtras().getString("loggedId");
+
+
+        final Intent intentSeatSelection = new Intent(getApplicationContext(), SeatSelectionActivity.class);
+
+        final ArrayList<Button> cars= new ArrayList<Button>();
+        cars.add((Button)findViewById(R.id.subwaymap1));
+        cars.add((Button)findViewById(R.id.subwaymap2));
+        cars.add((Button)findViewById(R.id.subwaymap3));
+        cars.add((Button)findViewById(R.id.subwaymap4));
+        cars.add((Button)findViewById(R.id.subwaymap5));
+        cars.add((Button)findViewById(R.id.subwaymap6));
+        cars.add((Button)findViewById(R.id.subwaymap7));
+        cars.add((Button)findViewById(R.id.subwaymap8));
+        cars.add((Button)findViewById(R.id.subwaymap9));
+
+        final Button backButton = (Button)findViewById(R.id.backButton3);
+        final Button searchStartButton = (Button)findViewById(R.id.searchStartButton);
+        TextView textView = (TextView) findViewById(R.id.trainDataTextView1);
+
+
+
+
+        textView.setText("7호선 "+carNum+" 열차");
+
+
+        //여기다가 칸 별 컬로코딩용 가져오면 됩니다.
+
+
+
+
+        //차량을 누르게 되면 다음화면으로 어떤 차량을 눌렀는지 정보가지고 넘어감
+        cars.get(0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(payed==true) {
+                    intentSeatSelection.putExtra("carNumber", 1);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", true);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                } else{
+                    intentSeatSelection.putExtra("carNumber", 1);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", false);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                }
+            }
+        });
+        cars.get(1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(payed==true) {
+                    intentSeatSelection.putExtra("carNumber", 2);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", true);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                } else{
+                    intentSeatSelection.putExtra("carNumber", 2);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", false);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                }
+            }
+        });
+        cars.get(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(payed==true) {
+                    intentSeatSelection.putExtra("carNumber", 3);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", true);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                } else{
+                    intentSeatSelection.putExtra("carNumber", 3);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", false);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                }
+            }
+        });
+        cars.get(3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(payed==true) {
+                    intentSeatSelection.putExtra("carNumber", 4);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", true);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                } else{
+                    intentSeatSelection.putExtra("carNumber", 4);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", false);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                }
+            }
+        });
+        cars.get(4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(payed==true) {
+                    intentSeatSelection.putExtra("carNumber", 5);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", true);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                } else{
+                    intentSeatSelection.putExtra("carNumber", 5);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", false);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                }
+            }
+        });
+        cars.get(5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(payed==true) {
+                    intentSeatSelection.putExtra("carNumber", 6);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", true);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                } else{
+                    intentSeatSelection.putExtra("carNumber", 6);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", false);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                }
+            }
+        });
+        cars.get(6).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(payed==true) {
+                    intentSeatSelection.putExtra("carNumber", 7);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", true);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                } else{
+                    intentSeatSelection.putExtra("carNumber", 7);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", false);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                }
+            }
+        });
+        cars.get(7).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(payed==true) {
+                    intentSeatSelection.putExtra("carNumber", 8);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", true);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                } else{
+                    intentSeatSelection.putExtra("carNumber", 8);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", false);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                }
+            }
+        });
+        cars.get(8).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(payed==true) {
+                    intentSeatSelection.putExtra("carNumber", 9);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", true);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                } else{
+                    intentSeatSelection.putExtra("carNumber", 9);
+                    intentSeatSelection.putExtra("trainNumber", carNum);
+                    intentSeatSelection.putExtra("payed", false);
+                    intentSeatSelection.putExtra("loggedId", loggedId);
+                    startActivityForResult(intentSeatSelection, 201);
+                }
+            }
+        });
+
+        //검색 버튼. 누르면 팝업창 뜨고 결제시스템
+        searchStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //여기에 포인트 시스템 넣으면 된다. 서버에서 payed된 순간 시간을  재고 아이디에 payed=true 넣은 후에 시간 지나면 payed=false되는 방식으로 해아할듯.
+                ServerConnectManager scMgr = new ServerConnectManager();
+                JSONObject jsonObj  = JsonWrapper.wrapSubwayTrainInfo(loggedId,carNum);
+                scMgr.requestQuery(jsonObj.toString());
+                while(scMgr.getQueryResult().equals(""));
+                if(!scMgr.getQueryResult().equals("POINTNOTENOUGH")) payed = true;
+                JSONArray jsonArray = null;
+//                //포인트가 충분해서 조회가 되었을 경우
+                if(payed) {
+                    try {
+                        // 이 JSONARRAY에 0~8 인덱스에  차량의 색이 들어가있음  키 값 : COLOR - 1 2 3 중  하나
+                        jsonArray = new JSONArray(scMgr.getQueryResult());
+
+                        for(int i=0;i<jsonArray.length();i++) {
+                            JSONObject obj = (JSONObject)jsonArray.get(i);
+                            int roomNumber = (Integer)obj.get("ROOMNO")-1;
+                            crowdedSituation[roomNumber] = (Integer) ((JSONObject)obj).get("COLOR");
+                        }
+
+                        // 9번째 인덱스에 포인트가 들어가있음
+                        point = (Integer) ((JSONObject)jsonArray.get(jsonArray.length()-1)).get("POINT");
+                        } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    searchStartButton.setBackgroundColor(Color.LTGRAY);
+                    searchStartButton.setText("검색완료");
+                    Toast.makeText(getApplicationContext(), "포인트가 100점 차감되어 " + point + "점 남았습니다", Toast.LENGTH_LONG).show();
+
+
+                    for (int i = 0; i < 9; i++) {
+                        switch (crowdedSituation[i]) {
+                            case 0:
+                                break;
+                            case 1:
+                                cars.get(i).setBackgroundResource(R.drawable.subwaymapred1);
+                                break;
+                            case 2:
+                                cars.get(i).setBackgroundResource(R.drawable.subwaymaporange1);
+                                break;
+                            case 3:
+                                cars.get(i).setBackgroundResource(R.drawable.subwaymapgreen1);
+                                break;
+                        }
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "포인트 부족으로 검색을 못합니다." , Toast.LENGTH_LONG).show();
+                }
+                //Log.d("time",""+payedTime);
+            }
+        });
+
+
+        //뒤로가기 버튼
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+    }
+}

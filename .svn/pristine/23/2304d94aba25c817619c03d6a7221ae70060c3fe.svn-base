@@ -1,0 +1,22 @@
+package src;
+
+import java.util.Vector;
+
+public class Subway {
+	private int subwayTrainNo;
+	Vector<Seat> seats = new Vector<Seat>();
+	
+	public Subway(int subwayTrainNo) {
+		super();
+		this.subwayTrainNo = subwayTrainNo;
+	}
+	
+	
+	public int getSubwayTrainNo() {
+		return subwayTrainNo;
+	}
+	public void setSubwayTrainNo(int subwayTrainNo) {
+		this.subwayTrainNo = subwayTrainNo;
+	}
+	
+}

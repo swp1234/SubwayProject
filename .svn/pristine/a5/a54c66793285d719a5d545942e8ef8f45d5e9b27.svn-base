@@ -1,0 +1,159 @@
+package com.example.project1;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
+public class SearchStationActivity extends AppCompatActivity {
+
+    String searchWord;
+    int homeStation=717;
+    int homeRoute=0;
+    int workStation=726;
+    int workRoute=0;
+    SubwayAdapter adapter;
+    String[][] station={{"장암","709"},{"도봉산","710"},{"수락산","711"},{"마들","712"},{"노원","713"},{"중계(한국성서대)","714"},{"하계(을지원 을지병원)","715"},{"공릉(서울과학기술대)","716"},
+            {"태릉입구","717"}, {"먹골","718"},{"중화","719"},{"상봉(시외버스터미널)","720"},{"면목(서일대입구)","721"},{"사가정(녹색병원)","722"},{"용마산","723"},{"중곡","724"},{"군자(능동)","725"},
+            {"어린이대공원(세종대)","726"},{"건대입구","727"},{"뚝섬유원지","728"},{"청댐(한국금거래소)","729"},{"강남구청","730"},{"학동","731"},{"논현","732"},{"반포","733"},{"고속터미널","734"},{"내방","735"},
+            {"아수","736"},{"남성","737"},{"숭실대입구(살피재)","738"},{"상도","739"},{"장승배기","740"},{"신대방삼거리","741"},{"보라매","742"},{"신풍","743"},{"대림(구로구청)","744"},{"남구로","745"},
+            {"가산디지털단지(마리오아울렛)","746"},{"철산","746"},{"광명사거리","748"},{"천왕","749"},{"온수(성공회대입구)","750"},{"까치울","751"},{"부천종합운동장","752"},{"춘의","753"},{"신중동","754"},
+            {"부천시청","755"},{"상동","756"},{"삼산체육관","757"},{"굴포천","758"},{"부평구청","759"}};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_station);
+
+        Intent passedIntent = getIntent();
+        processIntent(passedIntent);
+        searchWord = passedIntent.getExtras().getString("searchWord");
+
+        Button button = (Button)findViewById(R.id.searchbackbutton);
+        Button button2 = (Button)findViewById(R.id.xbutton);
+        Button button3 = (Button)findViewById(R.id.homeshortcut);
+        Button button4 = (Button)findViewById(R.id.workshortcut);
+        ListView listView = (ListView)findViewById(R.id.subwayListView);
+        TextView textView = (TextView)findViewById(R.id.searchtext);
+
+        textView.setText(searchWord);
+
+
+
+        adapter = new SubwayAdapter();
+        for(int i=0;i<station.length;i++){
+            if(station[i][0].contains(searchWord)&&!searchWord.equals("")){
+                if(i!=0) adapter.addItem(new SubwayItem(station[i][0],Integer.parseInt(station[i][1]),R.drawable.sevenline,station[i-1][0],1));
+                if(i!=station.length-1) adapter.addItem(new SubwayItem(station[i][0],Integer.parseInt(station[i][1]),R.drawable.sevenline,station[i+1][0],0));
+            }
+        }
+
+
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SubwayItem item = (SubwayItem) adapter.getItem(position);
+                //Toast.makeText(getApplicationContext(),"선택 : "+item.getName(), Toast.LENGTH_LONG).show();
+                Intent intent1 = new Intent(getApplicationContext(), SelectTrainActivity.class);
+                intent1.putExtra("selectedStation",item.getNum());
+                intent1.putExtra("route",item.getRouteNum());
+                startActivityForResult(intent1, 110);
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+        //단축기인 home이나 work 눌렀을 경우
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(getApplicationContext(), SelectTrainActivity.class);
+                intent1.putExtra("selectedStation",homeStation);
+                intent1.putExtra("route",homeRoute);
+                startActivityForResult(intent1, 110);
+
+            }
+        });
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(getApplicationContext(), SelectTrainActivity.class);
+                intent1.putExtra("selectedStation",workStation);
+                intent1.putExtra("route",workRoute);
+                startActivityForResult(intent1, 110);
+
+            }
+        });
+
+
+
+    }
+
+    private void processIntent(Intent intent){
+        if(intent !=null){
+            searchWord = intent.getStringExtra("searchWord");
+        }
+    }
+
+    class SubwayAdapter extends BaseAdapter{
+        ArrayList<SubwayItem> items = new ArrayList<SubwayItem>();
+
+        @Override
+        public int getCount() {
+            return items.size();
+        }
+
+        public void addItem(SubwayItem item){
+            items.add(item);
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return items.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            SubwayItemView view = new SubwayItemView(getApplicationContext());
+
+            SubwayItem item = items.get(position);
+            view.setName(item.getName());
+            view.setImage(item.getResId());
+            view.setRoute(item.getRoute());
+            return view;
+        }
+    }
+
+}
